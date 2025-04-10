@@ -20,6 +20,7 @@ from django.db.models import Q, Value, CharField, F
 from .utils import generate_presigned_url
 import boto3
 from botocore.exceptions import ClientError
+from django.contrib import messages
 
 logger = logging.getLogger(__name__)
 
@@ -158,12 +159,15 @@ def manage_friends(request):
 
         if action == 'add':
             profile.friends.add(friend.profile)
+            messages.success(request, f'{friend.username} has been added as a friend.')
         elif action == 'remove':
             profile.friends.remove(friend.profile)
+            messages.success(request, f'{friend.username} has been removed from your friends.')
         elif action == 'send_file':
             file_id = request.POST.get('file_id')
             file_record = get_object_or_404(File, id=file_id, user=request.user)
             file_record.shared_with.add(friend)
+            messages.success(request, f'File "{file_record.name}" has been successfully sent to {friend.username}.')
             return redirect('manage_friends')
 
         return redirect('manage_friends')

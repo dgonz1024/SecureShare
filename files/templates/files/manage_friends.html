@@ -5,6 +5,14 @@
 {% block content %}
 <h1>Manage Friends</h1>
 
+{% if messages %}
+<div class="alert alert-success" role="alert">
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
 <!-- Section to display current friends -->
 <h2>Your Friends</h2>
 <ul>
