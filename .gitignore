@@ -1,0 +1,19 @@
+# Ignore the .env file
+.env
+
+# Ignore compiled Python files
+*.pyc
+__pycache__/
+
+# Ignore media files (optional, if you don't want to track uploaded files locally)
+media/
+
+# Ignore logs
+*.log
+debug.log
+
+# Ignore virtual environment
+venv/
+
+# Ignore database file (optional, if you're using SQLite locally)
+db.sqlite3

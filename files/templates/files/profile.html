@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h1>Profile</h1>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+<p><strong>Date Joined:</strong> {{ user.date_joined }}</p>
+<a href="{% url 'file_list' %}" class="btn btn-primary">My Files</a>
+{% endblock %}

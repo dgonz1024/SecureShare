@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Friends{% endblock %}
+
+{% block content %}
+<h1>Manage Friends</h1>
+
+<!-- Section to display current friends -->
+<h2>Your Friends</h2>
+<ul>
+    {% for friend in friends %}
+    <li>
+        {{ friend.user.username }}
+        <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="friend_id" value="{{ friend.user.id }}">
+            <input type="hidden" name="action" value="remove">
+            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+        </form>
+    </li>
+    {% empty %}
+    <p>You have no friends yet.</p>
+    {% endfor %}
+</ul>
+
+<!-- Section to send a file to a friend -->
+<h2>Send File to a Friend</h2>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="file_id" class="form-label">Select File</label>
+        <select name="file_id" id="file_id" class="form-control" required>
+            {% for file in user_files %}
+            <option value="{{ file.id }}">{{ file.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="friend_id" class="form-label">Select Friend</label>
+        <select name="friend_id" id="friend_id" class="form-control" required>
+            {% for friend in friends %}
+            <option value="{{ friend.user.id }}">{{ friend.user.username }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <input type="hidden" name="action" value="send_file">
+    <button type="submit" class="btn btn-primary">Send File</button>
+</form>
+
+<!-- Section to display all users for adding friends -->
+<h2>All Users</h2>
+<ul>
+    {% for user in all_users %}
+    <li>
+        {{ user.username }}
+        {% if user.profile in friends %}
+        <span class="text-success">(Friend)</span>
+        {% else %}
+        <form method="post" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="friend_id" value="{{ user.id }}">
+            <input type="hidden" name="action" value="add">
+            <button type="submit" class="btn btn-primary btn-sm">Add Friend</button>
+        </form>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,2 @@
+This is a test file for SecureShare.
+curl -X POST -F "file=@example.txt" http://127.0.0.1:8000/files/upload/

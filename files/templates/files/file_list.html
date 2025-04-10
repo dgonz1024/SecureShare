@@ -1,0 +1,41 @@
+{% extends 'files/base.html' %}
+
+{% block title %}My Files - SecureShare{% endblock %}
+
+{% block content %}
+<h1>My Files</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Shared By</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in files %}
+        <tr>
+            <td>
+                {{ file.name }}
+                {% if file.is_image %}
+                <br>
+                <img src="{{ file.file.url }}" alt="{{ file.name }}" style="max-width: 100px; max-height: 100px;">
+                {% endif %}
+            </td>
+            <td>
+                {{ file.shared_by }}
+            </td>
+            <td>
+                <a href="{% url 'download_file' file.id %}" class="btn btn-primary btn-sm">Download</a>
+                {% if file.user == request.user %}
+                <form action="{% url 'delete_file' file.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
